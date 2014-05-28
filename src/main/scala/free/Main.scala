@@ -18,7 +18,7 @@ object Main {
   }
   
   // type alias for Free partially applied to Id
-  type FreeId[+A] = Free[Id, A]
+  type FreeId[+A] = Freee[Id, A]
   // type alias for ReaderT on top of FreeId
   type FreeReader[A, B] = ReaderT[FreeId, A, B]
   object FreeReader {
@@ -30,12 +30,12 @@ object Main {
   
   def free = {
     val foo: FreeReader[Int, Seq[Int]] = for {
-      x <- (1 to 3000).toList.map(_ => FreeReader[Int, Int](identity)).sequenceU
+      x <- (1 to 3000).toList.map(i => FreeReader[Int, Int](ii => 1)).sequenceU
     } yield x
     
     // after running our reader we need to get out of Free, which we do by using 
     // "go", which is foldFree. Getting out of our suspension functor is trivial
     // (it's Id!), so we formally use the copoint method
-    println(foo(1).go(_.copoint).sum)
+    println(Freee.foldFreee(foo(1)).sum)
   }
 }
